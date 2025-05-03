@@ -1,0 +1,20 @@
+services:
+  # Backend service (Go)
+  backend:
+    build: ./server
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./server:/app
+    environment:
+      - PORT=8080
+
+  # Frontend service (React/Vite)
+  frontend:
+    build: ./client
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+    stdin_open: true
+    tty: true

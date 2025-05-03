@@ -4,14 +4,17 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/davidl21/algotracker/server/data"
 )
 
 type Problems struct {
 	l *log.Logger
+	store *data.Store
 }
 
-func NewProblems(l *log.Logger) *Problems {
-	return &Problems{l}
+func NewProblems(l *log.Logger, store *data.Store) *Problems {
+	return &Problems{l, store}
 }
 
 func (p *Problems) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
