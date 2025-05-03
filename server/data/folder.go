@@ -4,13 +4,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 )
 
 type Folder struct {
-	ID string
-	UserID string
-	Name string
-	CreatedAt string 
+	ID        string    `json:"id"`
+	UserID    string    `json:"user_id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (s *Store) CreateFolder(ctx context.Context, userID string, name string) (*Folder, error) {
@@ -19,8 +20,6 @@ func (s *Store) CreateFolder(ctx context.Context, userID string, name string) (*
 	query := `INSERT INTO folders (user_id, name) 
 			  VALUES ($1, $2) 
 			  RETURNING id, user_id, name, created_at`
-	
-	log.Printf("Executing query with userID: %s, name: %s", userID, name)
 	
 	err := s.db.QueryRow(ctx, query, userID, name).Scan(&f.ID, &f.UserID, &f.Name, &f.CreatedAt)
 	if err != nil {
