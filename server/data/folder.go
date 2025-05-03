@@ -16,12 +16,6 @@ type Folder struct {
 func (s *Store) CreateFolder(ctx context.Context, userID string, name string) (*Folder, error) {
 	var f Folder
 	
-	// Add connection check
-	if err := s.db.Ping(ctx); err != nil {
-		log.Printf("Database connection check failed: %v", err)
-		return nil, fmt.Errorf("database connection error: %w", err)
-	}
-	
 	query := `INSERT INTO folders (user_id, name) 
 			  VALUES ($1, $2) 
 			  RETURNING id, user_id, name, created_at`
