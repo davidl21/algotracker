@@ -47,6 +47,9 @@ func main() {
 	postRouter := serveMux.Methods(http.MethodPost).Subrouter()
 	postRouter.HandleFunc("/folders", frh.CreateFolder)
 
+	deleteRouter := serveMux.Methods(http.MethodDelete).Subrouter()
+	deleteRouter.HandleFunc("/folders", frh.DeleteFolder)
+
 	log.Println("Starting server on port 8080")
 	err = http.ListenAndServe(":8080", serveMux)
 	if err != nil {

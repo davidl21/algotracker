@@ -29,3 +29,19 @@ func (s *Store) CreateFolder(ctx context.Context, userID string, name string) (*
 
 	return &f, nil
 }
+
+func (s *Store) DeleteFolder(ctx context.Context, userID string, name string) error {
+	query := `DELETE FROM folders WHERE user_id = $1 AND name = $2`
+
+	result, err := s.db.Exec(ctx, query, userID, name)
+	if err != nil {
+		return fmt.Errorf("failed to delete folder: %w", err)
+	}
+
+	rowsAffected := result.RowsAffected()
+	if rowsAffected == 0 {
+		return fmt.Errorf("no folder found with name: %s for user: %s", name, userID)
+	}
+
+	return nil
+}
